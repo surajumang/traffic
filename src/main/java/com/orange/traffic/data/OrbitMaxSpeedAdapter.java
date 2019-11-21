@@ -52,4 +52,9 @@ public class OrbitMaxSpeedAdapter implements OrbitMaxSpeed {
     public double getNumberOfCraters() {
         return orbit.getNumberOfCraters();
     }
+
+    @Override
+    public String name() {
+        return orbit.name();
+    }
 }

@@ -52,4 +52,9 @@ public class WeatherOrbitWrapper implements Orbit {
 //        }
         return weather.getAdaptedCraterNumber(orbit.getNumberOfCraters());
     }
+
+    @Override
+    public String name() {
+        return orbit.name();
+    }
 }

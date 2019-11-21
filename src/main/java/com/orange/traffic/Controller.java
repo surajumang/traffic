@@ -12,6 +12,9 @@ package com.orange.traffic;
 
 import com.orange.traffic.data.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created 11/18/2019
  *
@@ -26,26 +29,35 @@ import com.orange.traffic.data.*;
 * It will give us six different objects, we just need to find the minimum among them*/
 public class Controller {
     private final Weather weather;
-    private final int OrbitOneMaxSpeed;
-    private final int OrbitTwoMaxSpeed;
+    private final int orbitOneMaxSpeed;
+    private final int orbitTwoMaxSpeed;
     private OrbitMaxSpeed orbitMaxSpeed;
 
     public Controller(Weather weather, int orbitOneMaxSpeed, int orbitTwoMaxSpeed) {
         this.weather = weather;
-        OrbitOneMaxSpeed = orbitOneMaxSpeed;
-        OrbitTwoMaxSpeed = orbitTwoMaxSpeed;
-
-        Orbit orbit1WithWeather = new WeatherOrbitWrapper(weather, Orbit.Orbits.ORBIT_1);
-        orbitMaxSpeed = new OrbitMaxSpeedAdapter(OrbitOneMaxSpeed, orbit1WithWeather);
+        this.orbitOneMaxSpeed = orbitOneMaxSpeed;
+        this.orbitTwoMaxSpeed = orbitTwoMaxSpeed;
     }
 
-    public void start(){
-
-
-
+    public ResponseContainer process(){
+        OrbitMaxSpeed orbit1Adapted = new OrbitMaxSpeedAdapter(this.orbitOneMaxSpeed,
+                new WeatherOrbitWrapper(weather, Orbit.Orbits.ORBIT_1));
+        OrbitMaxSpeed orbit2Adapted = new OrbitMaxSpeedAdapter(this.orbitTwoMaxSpeed,
+                new WeatherOrbitWrapper(this.weather, Orbit.Orbits.ORBIT_2));
+        return minTimeVehicleForOrbits(Arrays.asList(orbit1Adapted, orbit2Adapted));
+    }
+    /*
+    * This will use Weather instance and given list of Orbits to determine the Vehicle which takes
+    * minimum time to cover any of the Orbits.
+    * */
+    public ResponseContainer minTimeVehicleForOrbits(List<OrbitMaxSpeed> orbits){
+        ResponseContainerSmall result = orbits.stream().map(orb -> minTimeVehicle(weather, orb))
+                .min(ResponseContainerSmall::compareTo)
+                .orElseThrow(RuntimeException::new);
+        return new ResponseContainer(result.getChosenVehicle(), result.getTimeTaken(), result.getOrbit(), weather);
     }
 
-    public Vehicle minTimeVehicle(){
+    public static ResponseContainerSmall minTimeVehicle(Weather weather, OrbitMaxSpeed orbitMaxSpeed){
         //find the vehicle which will take the least time on this orbit.
         double minTime = Integer.MAX_VALUE;
         Vehicle minTimeVehicle = null;
@@ -59,7 +71,7 @@ public class Controller {
                 minTimeVehicle = vehicle;
             }
         }
-        return minTimeVehicle;
+        return new ResponseContainerSmall(minTimeVehicle, minTime, orbitMaxSpeed);
     }
 
     public static double timeToTravel(Orbit orbit, Vehicle vehicle){

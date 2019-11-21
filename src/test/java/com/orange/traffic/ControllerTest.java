@@ -18,8 +18,9 @@ public class ControllerTest {
 
     @Test
     public void minTimeVehicle() {
-        Vehicle vehicle = new Controller(Weather.WINDY, 10,5).minTimeVehicle();
-        assertEquals(vehicle, Vehicle.Vehicles.BIKE);
+        ResponseContainerSmall result = Controller.minTimeVehicle(Weather.WINDY,
+                OrbitMaxSpeedAdapter.create(10, Orbit.Orbits.ORBIT_1));
+        assertEquals(result, new ResponseContainerSmall(Vehicle.Vehicles.BIKE, 148.0));
     }
 
     @Test
@@ -31,5 +32,47 @@ public class ControllerTest {
 
         val = Controller.timeToTravel(sunnyOrbit1, VehicleOrbitMaxSpeedAdapter.create(temp, Vehicle.Vehicles.BIKE));
         assertEquals(val, (18.0/5)*60 + 2*18, 0.7);
+    }
+
+    @Test
+    public void processTwoOrbitsWindy() {
+        Controller controller = new Controller(Weather.WINDY, 10, 10);
+        ResponseContainer result = controller.process();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.BIKE);
+
+        assertEquals(result.getOrbit().name(), "ORBIT_2");
+    }
+
+    @Test
+    public void processTwoOrbitsRainy() {
+        //ORBIT_1, TUKTUK - 114, CAR - 144
+        //ORBIT_2, TUKTUK - 112, CAR - 116
+        Controller controller = new Controller(Weather.RAINY, 15, 15);
+        ResponseContainer result = controller.process();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.TUKTUK);
+
+        assertEquals(result.getOrbit().name(), "ORBIT_2");
+    }
+
+    @Test
+    public void processTwoOrbitsRainy_SuperCarWins() {
+        //ORBIT_1, TUKTUK - 114, CAR - 144
+        //ORBIT_2, TUKTUK - 112, CAR - 96
+        Controller controller = new Controller(Weather.RAINY, 15, 20);
+        ResponseContainer result = controller.process();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.SUPER_CAR);
+
+        assertEquals(result.getOrbit().name(), "ORBIT_2");
+    }
+
+    @Test
+    public void processTwoOrbitsSunny() {
+        //ORBIT_1, BIKE - 144, TUKTUK - 108, CAR - 126
+        //ORBIT_2, BIKE - 138, TUKTUK - 109, CAR - 127
+        Controller controller = new Controller(Weather.SUNNY, 15, 12);
+        ResponseContainer result = controller.process();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.TUKTUK);
+
+        assertEquals(result.getOrbit().name(), "ORBIT_1");
     }
 }

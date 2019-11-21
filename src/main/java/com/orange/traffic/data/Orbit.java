@@ -20,6 +20,7 @@ public interface Orbit {
     City to();
     double getDistance();
     double getNumberOfCraters();
+    String name();
 
     enum Orbits implements Orbit{
         ORBIT_1(City.SILK_DORB, City.HALLITHARAM, 18.0, 20),
@@ -38,6 +39,8 @@ public interface Orbit {
             this.distance = distance;
             this.craters = craters;
         }
+
+
 
         @Override
         public City from() {
