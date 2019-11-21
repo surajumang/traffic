@@ -13,9 +13,9 @@ public class WeatherTest {
 
     @Test
     public void getAdaptedCraterNumber() {
-        assertEquals(Weather.SUNNY.getAdaptedCraterNumber(100), 90);
-        assertEquals(Weather.RAINY.getAdaptedCraterNumber(100), 120);
-        assertEquals(Weather.WINDY.getAdaptedCraterNumber(90), 90);
+        assertEquals(Weather.SUNNY.getAdaptedCraterNumber(100), 90, 0.7);
+        assertEquals(Weather.RAINY.getAdaptedCraterNumber(100), 120, 0.7);
+        assertEquals(Weather.WINDY.getAdaptedCraterNumber(90), 90, 0.7);
 
     }
 }

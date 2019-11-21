@@ -15,16 +15,22 @@ package com.orange.traffic.data;
  *
  * @author sjkumar
  */
-/*
-* As vehicle characteristics are changing based on the Weather
-* */
-public class WeatherOrbitWrapper implements Orbit {
-    private final Weather weather;
+public class OrbitMaxSpeedAdapter implements OrbitMaxSpeed {
+    private final int maxSpeed;
     private final Orbit orbit;
 
-    public WeatherOrbitWrapper(Weather weather, Orbit orbit) {
-        this.weather = weather;
+    public OrbitMaxSpeedAdapter(int maxSpeed, Orbit orbit) {
+        this.maxSpeed = maxSpeed;
         this.orbit = orbit;
+    }
+
+    public static OrbitMaxSpeedAdapter create(int maxSpeed, Orbit orbit){
+        return new OrbitMaxSpeedAdapter(maxSpeed, orbit);
+    }
+
+    @Override
+    public int maxSpeed() {
+        return maxSpeed;
     }
 
     @Override
@@ -44,12 +50,6 @@ public class WeatherOrbitWrapper implements Orbit {
 
     @Override
     public double getNumberOfCraters() {
-//        int craters = orbit.getNumberOfCraters();
-//        if(weather == Weather.SUNNY){
-//            craters = (int)(0.9 * craters);
-//        }else if (weather == Weather.RAINY){
-//            craters = (int)(1.2 * craters);
-//        }
-        return weather.getAdaptedCraterNumber(orbit.getNumberOfCraters());
+        return orbit.getNumberOfCraters();
     }
 }

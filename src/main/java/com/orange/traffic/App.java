@@ -8,7 +8,7 @@ import com.orange.traffic.data.Weather;
  */
 public class App 
 {
-    
+
 
     public static void main( String[] args )
     {

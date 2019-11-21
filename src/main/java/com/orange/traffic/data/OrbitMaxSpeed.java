@@ -15,19 +15,6 @@ package com.orange.traffic.data;
  *
  * @author sjkumar
  */
-public enum  Weather {
-    SUNNY(-10), RAINY(20), WINDY(0);
-    private final int percentCraterChange;
-
-    Weather(int percentCraterChange) {
-        this.percentCraterChange = percentCraterChange;
-    }
-
-    public double getAdaptedCraterNumber(double craterCount){
-        return craterCount + (craterCount * toFraction(percentCraterChange));
-    }
-
-    private static Double toFraction(int percentChange){
-        return (percentChange * 1.0) / 100;
-    }
+public interface OrbitMaxSpeed extends Orbit {
+    int maxSpeed();
 }

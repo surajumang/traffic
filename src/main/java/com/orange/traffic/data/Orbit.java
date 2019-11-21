@@ -18,21 +18,21 @@ package com.orange.traffic.data;
 public interface Orbit {
     City from();
     City to();
-    int getDistance();
-    int getNumberOfCraters();
+    double getDistance();
+    double getNumberOfCraters();
 
     enum Orbits implements Orbit{
-        ORBIT_1(City.SILK_DORB, City.HALLITHARAM, 18, 20),
+        ORBIT_1(City.SILK_DORB, City.HALLITHARAM, 18.0, 20),
         ORBIT_2(City.SILK_DORB, City.HALLITHARAM,20, 10),
         ORBIT_3(City.SILK_DORB, City.RK_PURAM,30, 15),
         ORBIT_4(City.HALLITHARAM, City.RK_PURAM,15, 18);
 
         private final City fromCity;
         private final City toCity;
-        private final int distance;
-        private final int craters;
+        private final double distance;
+        private final double craters;
 
-        Orbits(City fromCity, City toCity, int distance, int craters) {
+        Orbits(City fromCity, City toCity, double distance, double craters) {
             this.fromCity = fromCity;
             this.toCity = toCity;
             this.distance = distance;
@@ -50,12 +50,12 @@ public interface Orbit {
         }
 
         @Override
-        public int getDistance() {
+        public double getDistance() {
             return distance;
         }
 
         @Override
-        public int getNumberOfCraters() {
+        public double getNumberOfCraters() {
             return craters;
         }
     }
