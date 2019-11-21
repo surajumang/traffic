@@ -75,4 +75,28 @@ public class ControllerTest {
 
         assertEquals(result.getOrbit().name(), "ORBIT_1");
     }
+
+    @Test
+    public void processTwoOrbitsSunny_1() {
+        //ORBIT_1, BIKE - 144, TUKTUK - 108, CAR - 126
+        //ORBIT_2, BIKE - 138, TUKTUK - 109, CAR - 127
+        Controller controller = new Controller(Weather.SUNNY, 12, 10);
+        ResponseContainer result = controller.process();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.TUKTUK);
+
+        assertEquals(result.getOrbit().name(), "ORBIT_1");
+    }
+
+    @Test
+    public void processTwoOrbitsSunny_2() {
+        //ORBIT_1, BIKE - 144, TUKTUK - 108, CAR - 126
+        //ORBIT_2, BIKE - 138, TUKTUK - 109, CAR - 127
+        Controller controller = new Controller(Weather.WINDY, 14, 20);
+        ResponseContainer result = controller.process();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.SUPER_CAR);
+
+        assertEquals(result.getOrbit().name(), "ORBIT_2");
+    }
+
+
 }
