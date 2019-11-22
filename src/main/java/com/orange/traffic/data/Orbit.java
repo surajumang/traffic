@@ -21,6 +21,9 @@ public interface Orbit {
     double getDistance();
     double getNumberOfCraters();
     String name();
+    default int maxSpeed(){
+        return Integer.MAX_VALUE;
+    }
 
     enum Orbits implements Orbit{
         ORBIT_1(City.SILK_DORB, City.HALLITHARAM, 18.0, 20),

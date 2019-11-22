@@ -15,7 +15,7 @@ package com.orange.traffic.data;
  *
  * @author sjkumar
  */
-public class OrbitMaxSpeedAdapter implements OrbitMaxSpeed {
+public class OrbitMaxSpeedAdapter implements Orbit {
     private final int maxSpeed;
     private final Orbit orbit;
 

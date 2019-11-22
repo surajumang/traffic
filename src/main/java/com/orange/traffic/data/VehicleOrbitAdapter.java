@@ -17,17 +17,17 @@ package com.orange.traffic.data;
  */
 /*
 * Changing the behaviour of Vehicle class based on what orbit it is going to travel*/
-public class VehicleOrbitMaxSpeedAdapter implements Vehicle {
-    private final OrbitMaxSpeed orbit;
+public class VehicleOrbitAdapter implements Vehicle {
+    private final Orbit orbit;
     private final Vehicle vehicle;
 
-    public VehicleOrbitMaxSpeedAdapter(OrbitMaxSpeed orbit, Vehicle vehicle) {
+    public VehicleOrbitAdapter(Orbit orbit, Vehicle vehicle) {
         this.orbit = orbit;
         this.vehicle = vehicle;
     }
 
-    public static VehicleOrbitMaxSpeedAdapter create(OrbitMaxSpeed orbit, Vehicle vehicle){
-        return new VehicleOrbitMaxSpeedAdapter(orbit, vehicle);
+    public static VehicleOrbitAdapter create(Orbit orbit, Vehicle vehicle){
+        return new VehicleOrbitAdapter(orbit, vehicle);
     }
 
     @Override

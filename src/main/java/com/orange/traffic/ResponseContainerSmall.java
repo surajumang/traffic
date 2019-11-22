@@ -47,6 +47,18 @@ public class ResponseContainerSmall implements Comparable<ResponseContainerSmall
         return orbit;
     }
 
+    public void setChosenVehicle(Vehicle chosenVehicle) {
+        this.chosenVehicle = chosenVehicle;
+    }
+
+    public void setTimeTaken(Double timeTaken) {
+        this.timeTaken = timeTaken;
+    }
+
+    public void setOrbit(Orbit orbit) {
+        this.orbit = orbit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

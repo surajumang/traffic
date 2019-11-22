@@ -3,6 +3,8 @@ package com.orange.traffic;
 import com.orange.traffic.data.*;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 /**
@@ -19,7 +21,7 @@ public class ControllerTest {
     @Test
     public void minTimeVehicle() {
         ResponseContainerSmall result = Controller.minTimeVehicle(Weather.WINDY,
-                OrbitMaxSpeedAdapter.create(10, Orbit.Orbits.ORBIT_1));
+                OrbitMaxSpeedAdapter.create(10, Orbit.Orbits.ORBIT_1), Arrays.asList(Vehicle.Vehicles.values()));
         assertEquals(result, new ResponseContainerSmall(Vehicle.Vehicles.BIKE, 148.0));
     }
 
@@ -27,10 +29,10 @@ public class ControllerTest {
     public void timeToTravel() {
         double val = Controller.timeToTravel(Orbit.Orbits.ORBIT_1, Vehicle.Vehicles.BIKE);
         assertEquals(val, (18.0/10)*60 + 20*2, 0.7);
-        OrbitMaxSpeed temp = OrbitMaxSpeedAdapter.create(5, Orbit.Orbits.ORBIT_1);
+        Orbit temp = OrbitMaxSpeedAdapter.create(5, Orbit.Orbits.ORBIT_1);
         Orbit sunnyOrbit1 = new WeatherOrbitWrapper(Weather.SUNNY, temp);
 
-        val = Controller.timeToTravel(sunnyOrbit1, VehicleOrbitMaxSpeedAdapter.create(temp, Vehicle.Vehicles.BIKE));
+        val = Controller.timeToTravel(sunnyOrbit1, VehicleOrbitAdapter.create(temp, Vehicle.Vehicles.BIKE));
         assertEquals(val, (18.0/5)*60 + 2*18, 0.7);
     }
 
@@ -98,5 +100,19 @@ public class ControllerTest {
         assertEquals(result.getOrbit().name(), "ORBIT_2");
     }
 
+    @Test
+    public void processV2Simple() {
+        Controller controller = new Controller(Weather.SUNNY, 20,12,15,12);
+        ResponseContainerSmall result = controller.processV2();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.TUKTUK);
+        System.out.println("Finally " + result.getTimeTaken());
+    }
 
+    @Test
+    public void processV2SimpleSecond() {
+        Controller controller = new Controller(Weather.WINDY, 5,10,20,20);
+        ResponseContainerSmall result = controller.processV2();
+        assertEquals(result.getChosenVehicle(), Vehicle.Vehicles.SUPER_CAR);
+        System.out.println("Finally " + result.getTimeTaken());
+    }
 }
